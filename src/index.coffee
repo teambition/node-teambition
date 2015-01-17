@@ -1,57 +1,42 @@
-http  = require('http')
-https = require('https')
-qs    = require('querystring')
+request = require('request')
+qs      = require('querystring')
 
 class Teambition
 
-  port: 443
+  protocol: 'https'
   host: 'api.teambition.com'
 
-  constructor: (@token, host, port) ->
-    @port = port if port
+  constructor: (@token, host, protocol) ->
     @host = host if host
-    @protocol = if @port is 443 then https else http
+    @protocol = protocol if protocol
 
   invokeGeneric: (method, apiURL, params, callback) ->
+
     if typeof params is 'function'
       callback = params
       params = {}
 
     params or= {}
-    
-    options =
-      host: @host
-      port: @port
-      path: apiURL
-      method: method
-      headers: 
-        "Authorization": "OAuth2 #{@token}"
 
+    apiURL = "#{@protocol}://#{@host}#{apiURL}"
     if method.toLowerCase() is 'get'
-      options.path += "?" + qs.stringify(params)
-    else
-      postData = JSON.stringify(params)
-      options.headers["Content-Type"] = "application/json"
-      options.headers["Content-Length"] = postData.length
+      apiURL += "?" + qs.stringify(params)
 
-    req = @protocol.request options, (res) ->
-      res.setEncoding('utf8')
-      data = ""
+    options =
+      method: method
+      headers:
+        'Content-Type': 'application/json'
+        "Authorization": "OAuth2 #{@token}"
+      url: apiURL
 
-      res.on 'data', (part) ->
-        data += part
+    if method.toLowerCase() isnt 'get'
+      options.body = JSON.stringify(params)
 
-      res.on "end", ->
-        if res.statusCode isnt 200
-          callback(data)
-        else
-          callback(null, JSON.parse(data))
-
-    req.write(postData) if method.toLowerCase() isnt 'get'
-    req.end()
-
-    req.on 'error', (e) ->
-      throw e
+    request options, (err, resp, body) ->
+      if resp and resp.statusCode isnt 200
+        err = body
+        body = null
+      callback(err, JSON.parse(body))
 
   api: (apiURL, params, callback) ->
     @invokeGeneric('GET', apiURL, params, callback)
