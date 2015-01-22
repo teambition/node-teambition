@@ -36,7 +36,12 @@ class Teambition
       if resp and resp.statusCode isnt 200
         err = body
         body = null
-      callback(err, JSON.parse(body))
+      else
+        try
+          body = JSON.parse(body)
+        catch err
+          body = null
+      callback(err, body)
 
   api: (apiURL, params, callback) ->
     @invokeGeneric('GET', apiURL, params, callback)
