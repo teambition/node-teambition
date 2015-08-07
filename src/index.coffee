@@ -1,5 +1,4 @@
 request = require('request')
-qs      = require('querystring')
 
 class Teambition
 
@@ -19,8 +18,6 @@ class Teambition
     params or= {}
 
     apiURL = "#{@protocol}://#{@host}#{apiURL}"
-    if method.toLowerCase() is 'get'
-      apiURL += "?" + qs.stringify(params)
 
     options =
       method: method
@@ -28,19 +25,16 @@ class Teambition
         'Content-Type': 'application/json'
         "Authorization": "OAuth2 #{@token}"
       url: apiURL
+      json: true
 
     if method.toLowerCase() isnt 'get'
-      options.body = JSON.stringify(params)
+      options.form = params
+    else
+      options.qs = params
 
     request options, (err, resp, body) ->
-      if resp and resp.statusCode isnt 200
-        err = body
-        body = null
-      else
-        try
-          body = JSON.parse(body)
-        catch err
-          body = null
+      if err or resp and resp.statusCode isnt 200
+        err or= body
       callback(err, body)
 
   api: (apiURL, params, callback) ->
