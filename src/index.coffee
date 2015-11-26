@@ -1,13 +1,40 @@
-request = require('request')
+request     = require('request')
+querystring = require('querystring')
 
 class Teambition
 
   protocol: 'https'
   host: 'api.teambition.com'
+  authHost: 'account.teambition.com'
 
-  constructor: (@token, host, protocol) ->
-    @host = host if host
-    @protocol = protocol if protocol
+  constructor: (@token, config = {}) ->
+    @host = config.host if config.host
+    @authHost = config.authHost if config.authHost
+    @protocol = config.protocol if config.protocol
+
+  getAuthorizeUrl: (client_id, redirect_uri, state) ->
+    qs = querystring.stringify({
+      client_id:client_id
+      redirect_uri: redirect_uri
+      state: state
+    })
+    "#{@protocol}://#{@authHost}/oauth2/authorize?#{qs}"
+
+  getAccessTokenUrl: ->
+    "#{@protocol}://#{@authHost}/oauth2/access_token"
+
+  authCallback: (client_id, client_secret) ->
+    self = @
+    (req, res, next) ->
+      { code } = req.query
+      api = self.getAccessTokenUrl()
+      self.post api, {
+        client_id: client_id
+        client_secret: client_secret
+        code: code
+      }, (err, body) ->
+        req.callbackBody = body
+        next()
 
   invokeGeneric: (method, apiURL, params, callback) ->
 
@@ -17,13 +44,15 @@ class Teambition
 
     params or= {}
 
-    apiURL = "#{@protocol}://#{@host}#{apiURL}"
+    if apiURL.indexOf('/') is 0
+      apiURL = "#{@protocol}://#{@host}#{apiURL}"
+
+    headers = 'Content-Type': 'application/json'
+    headers["Authorization"] = "OAuth2 #{@token}" if @token
 
     options =
       method: method
-      headers:
-        'Content-Type': 'application/json'
-        "Authorization": "OAuth2 #{@token}"
+      headers: headers
       url: apiURL
       json: true
 

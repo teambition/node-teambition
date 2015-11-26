@@ -8,11 +8,11 @@ npm i teambition
 
 ## 参数说明
 
-Teambition(access_token, host, port)
+Teambition(access_token, { host: "", authHost: "", protocol: "" })
 
 - access_token: 用户通过Teambition Account授权获取到的token, 用于验证请求是否合法并经过用户授权
 - host: `非必需参数`, 指定API地址
-- port: `非必需参数`, 指定API地址的端口号
+- authHost: `非必需参数`, 指定的认证host地址
 
 
 ## 使用
