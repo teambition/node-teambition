@@ -49,6 +49,9 @@ class Teambition
 
     headers = 'Content-Type': 'application/json'
     headers["Authorization"] = "OAuth2 #{@token}" if @token
+    if params.headers
+      headers = params.headers
+      delete params.headers
 
     options =
       method: method
