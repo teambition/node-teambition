@@ -6,7 +6,7 @@
 /_/ /_/ \____/ \__,_/   \___/        \__/  \___/ \__,_/  /_/ /_/ /_/ /_.___/ /_/   \__/  /_/   \____/ /_/ /_/ 
                                                                                                               
 ```
-[![Build Status](https://travis-ci.org/teambition/node-teambition.svg?branch=refactor/support-promise)](https://travis-ci.org/teambition/node-teambition)  [![codecov](https://codecov.io/gh/teambition/node-teambition/branch/refactor/support-promise/graph/badge.svg)](https://codecov.io/gh/teambition/node-teambition)  [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Build Status](https://travis-ci.org/teambition/node-teambition.svg?branch=master)](https://travis-ci.org/teambition/node-teambition)  [![codecov](https://codecov.io/gh/teambition/node-teambition/branch/master/graph/badge.svg)](https://codecov.io/gh/teambition/node-teambition)  [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 node sdk for teambition
 
