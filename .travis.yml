@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "6.10.0"
+
+script:
+  - yarn install
+  - yarn run test-cov
+  - yarn run test
+after_success:
+      - bash <(curl -s https://codecov.io/bash) -t dc1cb804-9552-4231-8f3c-8236bab452f9
