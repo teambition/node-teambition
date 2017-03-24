@@ -4,8 +4,8 @@
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "NODE_ENV=test node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "test-cov": "NODE_ENV=test node node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  -- --timeout 500000  -- ./test"
+    "test": "./node_modules/mocha/bin/_mocha  test/ --bail",
+    "test-cov": "node node_modules/istanbul-harmony/lib/cli.js cover ./node_modules/mocha/bin/_mocha  -- --timeout 500000 --recursive test/"
   },
   "author": "leeqiang",
   "license": "ISC",
