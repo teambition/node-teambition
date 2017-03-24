@@ -6,6 +6,8 @@
 /_/ /_/ \____/ \__,_/   \___/        \__/  \___/ \__,_/  /_/ /_/ /_/ /_.___/ /_/   \__/  /_/   \____/ /_/ /_/ 
                                                                                                               
 ```
+<img src="https://travis-ci.org/teambition/node-teambition.svg?branch=refactor/support-promise"/>
+[![codecov](https://codecov.io/gh/teambition/node-teambition/branch/refactor/support-promise/graph/badge.svg)](https://codecov.io/gh/teambition/node-teambition)
 node sdk for teambition
 
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
