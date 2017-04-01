@@ -1,7 +1,6 @@
 const Teambition = require('../lib/index')
 
 let accessToken = 'teambition accessToken'
-
 let teambition = new Teambition(accessToken)
 
 // callback
