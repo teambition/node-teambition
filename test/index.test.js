@@ -162,4 +162,44 @@ describe('Teambition SDK Testing', () => {
     should.exist(authCallback)
     done()
   })
+
+  describe('promise style request method', function () {
+    let teambitionClientRespFull
+
+    beforeEach(function () {
+      nock
+        .get('/api/users/me')
+        .reply(200, 'ok')
+      const fullRespConf = Object.create(config)
+      fullRespConf.resolveWithFullResponse = true
+      teambitionClientRespFull = new Teambition(accessToken, fullRespConf)
+    })
+
+    it('should return a promise by request', function (done) {
+
+      const res = teambitionClientRespFull.get('/users/me')
+      should(res).be.instanceOf(Promise)
+      done()
+    })
+
+    it('should both has resp & body', function (done) {
+      const res = teambitionClientRespFull.get('/users/me')
+        .then(function(res) {
+          should(res).be.instanceOf(Object)
+          should(res).has.property('statusCode')
+          should(res).property('body').be.eql('ok')
+          done()
+        })
+    })
+
+    it('should only has body', function (done) {
+      teambition.get('/users/me')  
+        .then((body) => {
+          should(body).be.instanceOf(Object)
+          should(body).not.has.properties(['headers', 'statusCode'])
+          should(body).be.eql('ok')
+          done()
+      })
+    })
+  })
 })

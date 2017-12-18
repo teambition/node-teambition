@@ -27,6 +27,7 @@ Options:
  - `access_token` 用户通过Teambition Account授权获取到的token, 用于验证请求是否合法并经过用户授权
  - `host` 非必需参数, 指定API地址s
  - `authHost` 非必需参数, 指定的认证host地址
+ - `resolveWithFullResponse` 非必须参数, 设置为true返回完整response数据
 
 
 ## Usage
