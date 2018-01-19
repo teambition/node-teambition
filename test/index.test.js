@@ -124,8 +124,7 @@ describe('Teambition SDK Testing', () => {
           'x-credential': 'jwt'
         }
       })
-      .then(userprofile => {})
-      .catch(err => {
+      .then(err => {
         expect(err).toBe('failed')
         done()
       })
@@ -176,7 +175,6 @@ describe('Teambition SDK Testing', () => {
     })
 
     it('should return a promise by request', function (done) {
-
       const res = teambitionClientRespFull.get('/users/me')
       should(res).be.instanceOf(Promise)
       done()
@@ -193,7 +191,7 @@ describe('Teambition SDK Testing', () => {
     })
 
     it('should only has body', function (done) {
-      teambition.get('/users/me')  
+      teambition.get('/users/me')
         .then((body) => {
           should(body).be.instanceOf(Object)
           should(body).not.has.properties(['headers', 'statusCode'])
