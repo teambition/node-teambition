@@ -11,7 +11,7 @@ teambition.get('/users/me', (err, data) => {
 })
 
 // promise
-teambition
-  .get('/users/me')
+teambition.users()
+  .info({ email: 'qiang@teambiton.com' })
   .then(userprofile => console.log(userprofile))
   .catch(err => console.log(err))
