@@ -1,3 +1,4 @@
+/* global describe, before, it, beforeEach */
 const Teambition = require('../lib/index')
 const should = require('should')
 const expect = require('expect')
@@ -10,12 +11,14 @@ let config = {
   authHost: 'localhost:3000/authHost'
 }
 let teambition = new Teambition(accessToken, config)
-describe('Teambition SDK Testing', () => {
+describe('Teambition User Testing', () => {
   before(() => {
     nock
       .get('/api/users/me')
       .reply(200, 'ok')
       .get('/api/users/me')
+      .reply(200, 'ok')
+      .get('/api/users')
       .reply(200, 'ok')
       .post('/api/users/me', {name: 'tbUser'})
       .reply(200, 'ok')
@@ -35,13 +38,12 @@ describe('Teambition SDK Testing', () => {
       .reply(500, 'failed')
   })
 
-  it('should resolve get user if valid promise request', (done) => {
-    teambition
-      .get('/users/me')
-      .then(userprofile => {
-        expect(userprofile).toBe('ok')
-        done()
-      })
+  it('should resolve get user if valid promise request', function (done) {
+    teambition.users().info((err, userprofile) => {
+      if (err) throw err
+      expect(userprofile).toBe('ok')
+      done()
+    })
   })
 
   it('should resolve get user if valid callback request', (done) => {
@@ -181,8 +183,8 @@ describe('Teambition SDK Testing', () => {
     })
 
     it('should both has resp & body', function (done) {
-      const res = teambitionClientRespFull.get('/users/me')
-        .then(function(res) {
+      teambitionClientRespFull.get('/users/me')
+        .then(function (res) {
           should(res).be.instanceOf(Object)
           should(res).has.property('statusCode')
           should(res).property('body').be.eql('ok')
@@ -197,7 +199,7 @@ describe('Teambition SDK Testing', () => {
           should(body).not.has.properties(['headers', 'statusCode'])
           should(body).be.eql('ok')
           done()
-      })
+        })
     })
   })
 })

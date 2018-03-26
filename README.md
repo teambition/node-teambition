@@ -1,10 +1,10 @@
 ```bash
                       __                __                               __      _    __     _                
-   ____   ____   ____/ /  ___          / /_  ___   ____ _   ____ ___    / /_    (_)  / /_   (_)  ____    ____ 
+   ____   ____   ____/ /  ___          / /_  ___   ____ _   ____ ___    / /_    (_)  / /_   (_)  ____    ____
   / __ \ / __ \ / __  /  / _ \ ______ / __/ / _ \ / __ `/  / __ `__ \  / __ \  / /  / __/  / /  / __ \  / __ \
  / / / // /_/ // /_/ /  /  __//_____// /_  /  __// /_/ /  / / / / / / / /_/ / / /  / /_   / /  / /_/ / / / / /
-/_/ /_/ \____/ \__,_/   \___/        \__/  \___/ \__,_/  /_/ /_/ /_/ /_.___/ /_/   \__/  /_/   \____/ /_/ /_/ 
-                                                                                                              
+/_/ /_/ \____/ \__,_/   \___/        \__/  \___/ \__,_/  /_/ /_/ /_/ /_.___/ /_/   \__/  /_/   \____/ /_/ /_/
+
 ```
 [![Build Status](https://travis-ci.org/teambition/node-teambition.svg?branch=master)](https://travis-ci.org/teambition/node-teambition)  [![codecov](https://codecov.io/gh/teambition/node-teambition/branch/master/graph/badge.svg)](https://codecov.io/gh/teambition/node-teambition)  [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
@@ -37,10 +37,10 @@ Options:
 let accessToken = 'teambition accessToken'
 let teambition = new Teambition(accessToken)
 
-teambition.get('/users/me', (err, data) => {
+teambition.users().info((err, userInfo) => {
   // user's profile
   if (err) throw err
-  console.log(data)
+  console.log(userInfo)
 })
 
 ```
@@ -49,8 +49,8 @@ teambition.get('/users/me', (err, data) => {
 ```JavaScript
 let accessToken = 'teambition accessToken'
 let teambition = new Teambition(accessToken)
-teambition
-  .get('/users/me')
+teambition.users()
+  .info()
   .then(userprofile => console.log(userprofile))
   .catch(err => console.log(err))
 ```
