@@ -28,6 +28,7 @@ Options:
  - `host` 非必需参数, 指定API地址s
  - `authHost` 非必需参数, 指定的认证host地址
  - `resolveWithFullResponse` 非必须参数, 设置为true返回完整response数据
+ - `endpoints` 非必须参数，默认为 '', 可指定为`/v2` 
 
 
 ## Usage
