@@ -11,9 +11,15 @@ let config = {
   authHost: 'localhost:3000/authHost'
 }
 let teambition = new Teambition(accessToken, config)
+let v1 = new Teambition(accessToken, Object.assign({ endpoints: '/v1' }, config))
+
 describe('Teambition User Testing', () => {
   before(() => {
     nock
+      .get('/api/v1/users/me')
+      .reply(200, 'ok')
+      .patch('/api/v1/users/me')
+      .reply(200, 'ok')
       .get('/api/users/me')
       .reply(200, 'ok')
       .get('/api/users/me')
@@ -44,6 +50,24 @@ describe('Teambition User Testing', () => {
       expect(userprofile).toBe('ok')
       done()
     })
+  })
+
+  it('should ok get user info with v1', (done) => {
+    v1
+      .get('/users/me')
+      .then(userprofile => {
+        expect(userprofile).toBe('ok')
+        done()
+      })
+  })
+
+  it('should ok patch user info with v1', (done) => {
+    v1
+      .patch('/users/me')
+      .then(userprofile => {
+        expect(userprofile).toBe('ok')
+        done()
+      })
   })
 
   it('should resolve get user if valid callback request', (done) => {
