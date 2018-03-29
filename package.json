@@ -10,10 +10,8 @@
   "author": "leeqiang",
   "license": "ISC",
   "dependencies": {
+    "apis-builder": "^1.0.0",
     "debug": "^3.1.0",
-    "inflection": "^1.12.0",
-    "path-proxy": "^1.0.0",
-    "promisify-call": "^2.0.4",
     "querystring": "^0.2.0",
     "requestretry": "^1.13.0",
     "user-agent-composer": "^0.1.1"

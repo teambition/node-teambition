@@ -25,6 +25,14 @@ ansi-styles@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-2.2.1.tgz#b432dd3358b634cf75e1e4664368240533c1ddbe"
 
+apis-builder@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/apis-builder/-/apis-builder-1.0.0.tgz#4c87d16fcf8417b05d0bf5ecc148d65f140df89d"
+  dependencies:
+    inflection "^1.12.0"
+    path-proxy "^1.0.0"
+    promisify-call "^2.0.4"
+
 argparse@^1.0.7:
   version "1.0.9"
   resolved "http://r.cnpmjs.org/argparse/download/argparse-1.0.9.tgz#73d83bc263f86e97f8cc4f6bae1b0e90a7d22c86"
