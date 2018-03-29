@@ -28,6 +28,8 @@ Options:
  - `host` 非必需参数, 指定API地址s
  - `authHost` 非必需参数, 指定的认证host地址
  - `resolveWithFullResponse` 非必须参数, 设置为true返回完整response数据
+ - `retryStrategy@function` 重试策略, 详细 https://github.com/FGRibreau/node-request-retry
+ - `maxAttempts` 最大重试次数，默认 3 次，详细 https://github.com/FGRibreau/node-request-retry
 
 
 ## Usage
@@ -37,23 +39,14 @@ Options:
 let accessToken = 'teambition accessToken'
 let teambition = new Teambition(accessToken)
 
-teambition.users().info((err, userInfo) => {
-  // user's profile
-  if (err) throw err
-  console.log(userInfo)
-})
+let userInfo = await teambition.users().info()
 
 ```
 
-* promise
-```JavaScript
-let accessToken = 'teambition accessToken'
-let teambition = new Teambition(accessToken)
-teambition.users()
-  .info()
-  .then(userprofile => console.log(userprofile))
-  .catch(err => console.log(err))
-```
+## Updates
+
+- # 2018-03-29
+  - 新增`重试机制`, HTTP StatusCode > 400 时会发起重试，默认为 3 次
 
 ## License
 

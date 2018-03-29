@@ -26,49 +26,34 @@ describe('Teambition Team Testing', () => {
       .reply(200, 'ok')
   })
 
-  it('should get org-teams', function (done) {
-    teambition.organizations('123').teams().list((err, teams) => {
-      if (err) throw err
-      expect(teams).toBe('ok')
-      done()
-    })
+  it('should get org-teams', async function () {
+    let teams = await teambition.organizations('123').teams().list()
+    expect(teams).toBe('ok')
   })
 
-  it('should get project-teams', function (done) {
-    teambition.projects('123').teams().list((err, teams) => {
-      if (err) throw err
-      expect(teams).toBe('ok')
-      done()
-    })
+  it('should get project-teams', async function () {
+    let teams = await teambition.projects('123').teams().list()
+    expect(teams).toBe('ok')
   })
 
-  it('should get team info', function (done) {
-    teambition.teams('123').info((err, team) => {
-      if (err) throw err
-      expect(team).toBe('ok')
-      done()
-    })
+  it('should get team info', async function () {
+    let team = await teambition.teams('123').info()
+    expect(team).toBe('ok')
   })
 
-  it('should get my joined teams', function (done) {
-    teambition.teams()
+  it('should get my joined teams', async function () {
+    let team = await teambition.teams()
       .me()
-      .joined({ _organizationId: '123' }, (err, team) => {
-        if (err) throw err
-        expect(team).toBe('ok')
-        done()
-      })
+      .joined({ _organizationId: '123' })
+    expect(team).toBe('ok')
   })
 
-  it('should create team', function (done) {
-    teambition.teams()
+  it('should create team', async function () {
+    let team = await teambition.teams()
       .create({
         _organizationId: '123',
         name: 'A'
-      }, (err, team) => {
-        if (err) throw err
-        expect(team).toBe('ok')
-        done()
       })
+    expect(team).toBe('ok')
   })
 })

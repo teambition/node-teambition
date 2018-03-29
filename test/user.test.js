@@ -8,7 +8,8 @@ let accessToken = 'teambition accessToken'
 let config = {
   protocol: 'http',
   host: 'localhost:3000/api',
-  authHost: 'localhost:3000/authHost'
+  authHost: 'localhost:3000/authHost',
+  maxAttempts: 1
 }
 let teambition = new Teambition(accessToken, config)
 let v1 = new Teambition(accessToken, Object.assign({ endpoints: '/v1' }, config))
@@ -42,150 +43,110 @@ describe('Teambition User Testing', () => {
       .reply(500, 'failed')
       .delete('/api/users/me', {name: 'tbUser'})
       .reply(500, 'failed')
+      .delete('/api/users/me', {name: 'tbUser'})
+      .reply(500, 'failed')
+      .delete('/api/users/me', {name: 'tbUser'})
+      .reply(500, 'failed')
   })
 
-  it('should resolve get user if valid promise request', function (done) {
-    teambition.users().info((err, userprofile) => {
-      if (err) throw err
-      expect(userprofile).toBe('ok')
-      done()
-    })
+  it('should resolve get user if valid promise request', async function () {
+    let userprofile = await teambition.users().info()
+    expect(userprofile).toBe('ok')
   })
 
-  it('should ok get user info with v1', (done) => {
-    v1
+  it('should ok get user info with v1', async () => {
+    let userprofile = await v1
       .get('/users/me')
-      .then(userprofile => {
-        expect(userprofile).toBe('ok')
-        done()
-      })
+    expect(userprofile).toBe('ok')
   })
 
-  it('should ok patch user info with v1', (done) => {
-    v1
+  it('should ok patch user info with v1', async () => {
+    let userprofile = await v1
       .patch('/users/me')
-      .then(userprofile => {
-        expect(userprofile).toBe('ok')
-        done()
-      })
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve get user if valid callback request', (done) => {
-    teambition.get('/users/me', (err, userprofile) => {
-      // user's profile
-      if (err) throw err
-      expect(userprofile).toBe('ok')
-      done()
-    })
+  it('should resolve get user if valid callback request', async () => {
+    let userprofile = await teambition.get('/users/me')
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve post user if valid promise request', (done) => {
-    teambition
+  it('should resolve post user if valid promise request', async () => {
+    let userprofile = await teambition
       .post('/users/me', {
         name: 'tbUser'
       })
-      .then(userprofile => {
-        expect(userprofile).toBe('ok')
-        done()
-      })
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve post user if valid callback request', (done) => {
-    teambition.post('/users/me', {name: 'tbUser'}, (err, userprofile) => {
-      // user's profile
-      if (err) throw err
-      expect(userprofile).toBe('ok')
-      done()
-    })
+  it('should resolve post user if valid callback request', async () => {
+    let userprofile = await teambition.post('/users/me', {name: 'tbUser'})
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve put user if valid promise request', (done) => {
-    teambition
+  it('should resolve put user if valid promise request', async () => {
+    let userprofile = await teambition
       .put('/users/me', {
         name: 'tbUser'
       })
-      .then(userprofile => {
-        expect(userprofile).toBe('ok')
-        done()
-      })
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve put user if valid callback request', (done) => {
-    teambition.put('/users/me', {name: 'tbUser'}, (err, userprofile) => {
-      // user's profile
-      if (err) throw err
-      expect(userprofile).toBe('ok')
-      done()
-    })
+  it('should resolve put user if valid callback request', async () => {
+    let userprofile = await teambition.put('/users/me', {name: 'tbUser'})
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve delete user if valid promise request', (done) => {
-    teambition
+  it('should resolve delete user if valid promise request', async () => {
+    let userprofile = await teambition
       .del('/users/me', {
         name: 'tbUser',
         headers: {
           'x-credential': 'jwt'
         }
       })
-      .then(userprofile => {
-        expect(userprofile).toBe('ok')
-        done()
-      })
+    expect(userprofile).toBe('ok')
   })
 
-  it('should resolve delete user if valid callback request', (done) => {
-    teambition.del('/users/me', {name: 'tbUser'}, (err, userprofile) => {
-      // user's profile
-      if (err) throw err
-      expect(userprofile).toBe('ok')
-      done()
-    })
+  it('should resolve delete user if valid callback request', async () => {
+    let userprofile = await teambition.del('/users/me', {name: 'tbUser'})
+    expect(userprofile).toBe('ok')
   })
 
-  it('should reject delete user if valid promise request', (done) => {
-    teambition
+  it('should reject delete user if valid promise request', async () => {
+    let res = await teambition
       .del('/users/me', {
         name: 'tbUser',
         headers: {
           'x-credential': 'jwt'
         }
       })
-      .then(err => {
-        expect(err).toBe('failed')
-        done()
-      })
+    expect(res).toBe('failed')
   })
 
-  it('should reject delete user if valid callback request', (done) => {
-    teambition.del('/users/me', {name: 'tbUser'}, (err, userprofile) => {
-      // user's profile
-      expect(err).toBe('failed')
-      done()
-    })
+  it('should reject delete user if valid callback request', async () => {
+    let res = await teambition.del('/users/me', {name: 'tbUser'})
+    expect(res).toBe('failed')
   })
 
-  it('should resolve getAuthorizeUrl if valid request', (done) => {
-    let auth = teambition.getAuthorizeUrl('tb-01', '/test', 'true')
+  it('should resolve getAuthorizeUrl if valid request', async () => {
+    let auth = await teambition.getAuthorizeUrl('tb-01', '/test', 'true')
     should.exist(auth)
-    done()
   })
 
-  it('should resolve getAccessTokenUrl if valid request', (done) => {
-    let accessTokenUrl = teambition.getAccessTokenUrl()
+  it('should resolve getAccessTokenUrl if valid request', async () => {
+    let accessTokenUrl = await teambition.getAccessTokenUrl()
     should.exist(accessTokenUrl)
-    done()
   })
 
-  it('should resolve authCallback if valid request', (done) => {
-    let authCallback = teambition.authCallback('tb-01', 'teambition')
+  it('should resolve authCallback if valid request', async () => {
+    let authCallback = await teambition.authCallback('tb-01', 'teambition')
     should.exist(authCallback)
-    done()
   })
 
-  it('should resolve authCoCallback if valid request', (done) => {
-    let authCallback = teambition.authCoCallback('tb-01', 'teambition')
+  it('should resolve authCoCallback if valid request', async () => {
+    let authCallback = await teambition.authCoCallback('tb-01', 'teambition')
     should.exist(authCallback)
-    done()
   })
 
   describe('promise style request method', function () {
@@ -206,24 +167,18 @@ describe('Teambition User Testing', () => {
       done()
     })
 
-    it('should both has resp & body', function (done) {
-      teambitionClientRespFull.get('/users/me')
-        .then(function (res) {
-          should(res).be.instanceOf(Object)
-          should(res).has.property('statusCode')
-          should(res).property('body').be.eql('ok')
-          done()
-        })
+    it('should both has resp & body', async function () {
+      let res = await teambitionClientRespFull.get('/users/me')
+      should(res).be.instanceOf(Object)
+      should(res).has.property('statusCode')
+      should(res).property('body').be.eql('ok')
     })
 
-    it('should only has body', function (done) {
-      teambition.get('/users/me')
-        .then((body) => {
-          should(body).be.instanceOf(Object)
-          should(body).not.has.properties(['headers', 'statusCode'])
-          should(body).be.eql('ok')
-          done()
-        })
+    it('should only has body', async function () {
+      let body = await teambition.get('/users/me')
+      should(body).be.instanceOf(Object)
+      should(body).not.has.properties(['headers', 'statusCode'])
+      should(body).be.eql('ok')
     })
   })
 })

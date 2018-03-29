@@ -15,7 +15,7 @@
     "path-proxy": "^1.0.0",
     "promisify-call": "^2.0.4",
     "querystring": "^0.2.0",
-    "request": "^2.51.0",
+    "requestretry": "^1.13.0",
     "user-agent-composer": "^0.1.1"
   },
   "devDependencies": {
