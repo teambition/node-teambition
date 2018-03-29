@@ -22,27 +22,18 @@ describe('Teambition Group Testing', () => {
       .reply(200, 'ok')
   })
 
-  it('should get org-groups', function (done) {
-    teambition.organizations('123').groups().list((err, groups) => {
-      if (err) throw err
-      expect(groups).toBe('ok')
-      done()
-    })
+  it('should get org-groups', async function () {
+    let groups = await teambition.organizations('123').groups().list()
+    expect(groups).toBe('ok')
   })
 
-  it('should get project-groups', function (done) {
-    teambition.projects('123').groups().list((err, groups) => {
-      if (err) throw err
-      expect(groups).toBe('ok')
-      done()
-    })
+  it('should get project-groups', async function () {
+    let groups = await teambition.projects('123').groups().list()
+    expect(groups).toBe('ok')
   })
 
-  it('should get team info', function (done) {
-    teambition.groups('123').info((err, group) => {
-      if (err) throw err
-      expect(group).toBe('ok')
-      done()
-    })
+  it('should get team info', async function () {
+    let group = await teambition.groups('123').info()
+    expect(group).toBe('ok')
   })
 })
